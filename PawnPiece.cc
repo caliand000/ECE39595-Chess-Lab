@@ -12,7 +12,7 @@ PawnPiece::PawnPiece(ChessBoard &board, Color color, int row, int column) :
     type = Pawn;
 }
 
-
+// override the pure virtual function from ChessPiece abstract class
 bool PawnPiece::canMoveToLocation(int newrow, int newcolumn) {
     // Check if the move is within bounds
     if (newrow < 0 || newrow >= board.getNumRows() || newcolumn < 0 || newcolumn >= board.getNumCols()) {
@@ -33,6 +33,7 @@ bool PawnPiece::canMoveToLocation(int newrow, int newcolumn) {
     return false;
 }
 
+// override the pure virtual function from ChessPiece abstract class
 const char* PawnPiece::toString() 
 {
     if(color == White)

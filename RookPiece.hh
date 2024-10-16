@@ -11,6 +11,11 @@ namespace Student
 {
     class RookPiece : public ChessPiece
     {
+        public:
+        RookPiece(ChessBoard &board, Color color, int row, int column);
+        virtual ~RookPiece() {}
+        bool canMoveToLocation(int newRow, int newCol); // override chessPiece canMoveToLocation method
+        const char* toString();                         // override chessPiece toString method
     };
 }
 

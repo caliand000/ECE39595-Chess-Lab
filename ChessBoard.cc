@@ -10,47 +10,6 @@ using Student::PawnPiece;
 using Student::RookPiece;
 using Student::BishopPiece;
 
-std::ostringstream ChessBoard::displayBoard()
-{
-    std::ostringstream outputString;
-    // top scale
-    outputString << "  ";
-    for (int i = 0; i < numCols; i++)
-    {
-        outputString << i;
-    }
-    outputString << std::endl
-                 << "  ";
-    // top border
-    for (int i = 0; i < numCols; i++)
-    {
-        outputString << "-";
-    }
-    outputString << std::endl;
-
-    for (int row = 0; row < numRows; row++)
-    {
-        outputString << row << "|";
-        for (int column = 0; column < numCols; column++)
-        {
-            ChessPiece *piece = board.at(row).at(column);
-            outputString << (piece == nullptr ? " " : piece->toString());
-        }
-        outputString << "|" << std::endl;
-    }
-
-    // bottom border
-    outputString << "  ";
-    for (int i = 0; i < numCols; i++)
-    {
-        outputString << "-";
-    }
-    outputString << std::endl
-                 << std::endl;
-
-    return outputString;
-}
-
 // Constructor: Initializes the board with given rows and columns
 ChessBoard::ChessBoard(int numRow, int numCol)
     : numRows(numRow), numCols(numCol)
@@ -99,3 +58,86 @@ void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startCol
     // Assign the new piece to the board
     board.at(startRow).at(startColumn) = newPiece;
 }
+
+
+// moves piece from one position to another
+bool movePiece(int fromRow, int fromColumn, int toRow, int toColumn) {
+    // used for part 2/3, doesn't need to be implemented yet
+}
+
+//TODO
+// check if move is valid
+bool isValidMove(int fromRow, int fromColumn, int toRow, int toColumn) {
+    /* check if there are any pieces in the way of the desire movement here?
+    currently the canMoveToLocation() function just checks if a piece is
+    doing a possible move without accounting for pieces in the way
+
+    idea:
+        maybe use another switch statement to define different squares to
+        check for depending on rook/pawn/bishop.
+        ex. for bishop, calculate direction of diagonal movement, then check
+        all the squares along that line (maybe use getPiece() func)
+        to see if a piece exists before the place the bishop should
+        move to
+
+        ex. for rook, calculate direction of movement, then check squares
+        along that line to see if theres a piece along the line
+
+        ex. for pawn, just check if square above or below has a piece
+
+        to calculate direction of movement, do y(toRow - fromRow) and
+        x(toCol - fromCol)
+        +y - piece moved down
+        -y - piece moved up
+
+        +x - piece moved right
+        -x - piece moved left
+    */
+}
+
+// check if piece can be attacked
+bool isPieceUnderThreat(int row, int column) {
+    // used for part 2/3, doesn't need to be implemented yet
+}
+
+std::ostringstream ChessBoard::displayBoard()
+{
+    std::ostringstream outputString;
+    // top scale
+    outputString << "  ";
+    for (int i = 0; i < numCols; i++)
+    {
+        outputString << i;
+    }
+    outputString << std::endl
+                 << "  ";
+    // top border
+    for (int i = 0; i < numCols; i++)
+    {
+        outputString << "-";
+    }
+    outputString << std::endl;
+
+    for (int row = 0; row < numRows; row++)
+    {
+        outputString << row << "|";
+        for (int column = 0; column < numCols; column++)
+        {
+            ChessPiece *piece = board.at(row).at(column);
+            outputString << (piece == nullptr ? " " : piece->toString());
+        }
+        outputString << "|" << std::endl;
+    }
+
+    // bottom border
+    outputString << "  ";
+    for (int i = 0; i < numCols; i++)
+    {
+        outputString << "-";
+    }
+    outputString << std::endl
+                 << std::endl;
+
+    return outputString;
+}
+

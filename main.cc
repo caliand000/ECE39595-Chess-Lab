@@ -2,6 +2,10 @@
 #include "Chess.h"
 #include "ChessBoard.hh"
 #include "ChessPiece.hh"
+#include "PawnPiece.hh"
+#include "RookPiece.hh"
+#include "BishopPiece.hh"
+#include "iostream"
 
 void test_part1_4x4_1()
 {
@@ -30,6 +34,14 @@ void test_part1_4x4_1()
 
 int main()
 {
-    test_part1_4x4_1();
+    //test_part1_4x4_1();
+    Student::ChessBoard Board(4, 4);
+    Board.createChessPiece(White, Pawn, 3, 2);
+    Board.createChessPiece(Black, Pawn, 1, 3);
+    std::cout << Board.displayBoard().str();
+
+    bool result = Board.isValidMove(3, 2, 2, 2);        //from (3, 2) to (3,1) should return true
+    std::cout << result << std::endl;
+
     return EXIT_SUCCESS;
 }

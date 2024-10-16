@@ -1,3 +1,5 @@
+//TODO: boolIsValidMove()
+
 #include "ChessBoard.hh"
 #include "PawnPiece.hh"
 #include "RookPiece.hh"
@@ -111,36 +113,6 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
         +x - piece moved right
         -x - piece moved left
     */
-
-   //check if coordinates are the same
-   if(fromRow == toRow && fromColumn == toColumn)
-   {
-       return false;
-   }
-    //check if there is a piece at the from position
-    if(board.at(fromRow).at(fromColumn) == nullptr)
-    {
-        return false;
-    }
-
-    //check if same color piece is at the to position, if piece exists
-    if(board.at(toRow).at(toColumn) != nullptr)
-    {
-        if(board.at(fromRow).at(fromColumn)->getColor() == board.at(toRow).at(toColumn)->getColor())
-        {
-            return false;
-        }
-    }
-
-    //now check canMoveToLocation
-    if(board.at(fromRow).at(fromColumn)->canMoveToLocation(toRow, toColumn) == false)
-    {
-        return false;
-    }
-
-
-
-   return true;
 }
 
 // check if piece can be attacked

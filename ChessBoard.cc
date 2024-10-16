@@ -18,6 +18,23 @@ ChessBoard::ChessBoard(int numRow, int numCol)
     board.resize(numRows, std::vector<ChessPiece *>(numCols, nullptr));
 }
 
+// Destructor: removes all ChessPiece objects from ChessBoard
+ChessBoard::~ChessBoard() {
+    // go through the entire array, determine if there is a piece, remove
+    // that piece if so
+
+    // this for loop goes through the rows
+    for (std::vector<Student::ChessPiece *> rowPtrs : board) {
+        // this for loop goes through the cols
+        for (Student::ChessPiece * piecePtr :rowPtrs) {
+            if (piecePtr != nullptr) {}
+                delete piecePtr;
+        }
+    }
+
+}
+
+
 // Creates a new chess piece on the board
 void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startColumn)
 {

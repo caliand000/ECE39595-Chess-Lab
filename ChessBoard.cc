@@ -1,3 +1,5 @@
+//TODO: boolIsValidMove()
+
 #include "ChessBoard.hh"
 #include "PawnPiece.hh"
 #include "RookPiece.hh"
@@ -78,13 +80,14 @@ void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startCol
 
 
 // moves piece from one position to another
-bool movePiece(int fromRow, int fromColumn, int toRow, int toColumn) {
+bool ChessBoard::movePiece(int fromRow, int fromColumn, int toRow, int toColumn) {
     // used for part 2/3, doesn't need to be implemented yet
+    return true;
 }
 
 //TODO
 // check if move is valid
-bool isValidMove(int fromRow, int fromColumn, int toRow, int toColumn) {
+bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColumn) {
     /* check if there are any pieces in the way of the desire movement here?
     currently the canMoveToLocation() function just checks if a piece is
     doing a possible move without accounting for pieces in the way
@@ -110,11 +113,15 @@ bool isValidMove(int fromRow, int fromColumn, int toRow, int toColumn) {
         +x - piece moved right
         -x - piece moved left
     */
+    if (fromRow - toRow > 0)
+        return true;
+    return false;
 }
 
 // check if piece can be attacked
-bool isPieceUnderThreat(int row, int column) {
+bool ChessBoard::isPieceUnderThreat(int row, int column) {
     // used for part 2/3, doesn't need to be implemented yet
+    return true;
 }
 
 std::ostringstream ChessBoard::displayBoard()

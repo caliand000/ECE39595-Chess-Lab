@@ -37,6 +37,13 @@ namespace Student
         ChessBoard(int numRow, int numCol);
 
         /**
+         * @brief
+         * Default destructor for ChessBoard.
+         * Deletes all pieces on the board.
+         */
+        ~ChessBoard();
+
+        /**
          * @return
          * Number of rows in chess board.
          */

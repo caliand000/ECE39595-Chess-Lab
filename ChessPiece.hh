@@ -9,6 +9,15 @@
 
   class ChessPiece
   {
+
+  protected:
+    ChessBoard &board;
+    Color color;
+    Type type;
+    int row;
+    int column;
+
+
   public:
     /**
      * @brief
@@ -23,6 +32,7 @@
      * Starting column of the piece.
      */
     ChessPiece(ChessBoard &board, Color color, int row, int column);
+
     /**
      * @brief
      * Default destructor for ChessPiece.

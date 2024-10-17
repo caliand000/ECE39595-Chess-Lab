@@ -86,7 +86,8 @@ bool BishopPiece::canMoveToLocation(int newRow, int newCol) {
             if (board.getPiece(row + i *rowDir, column + i *colDir) != nullptr)
                 return false;
         }
-        return true;
+        if (board.getPiece(newRow, newCol) == nullptr || board.getPiece(newRow, newCol)->getColor() != color)    
+            return true;
     }
     return false;
 

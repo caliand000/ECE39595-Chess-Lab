@@ -86,12 +86,14 @@ bool RookPiece::canMoveToLocation(int newRow, int newCol) {
         maxDistance = absValue(newRow - row);
     
     if (newRow == row || newCol == column) {
-        for (int i = 1; i < maxDistance; i++)
+        for (int i = 1; i < maxDistance; i++)   // go through every square before the final destination square
         {
             if (board.getPiece(row + (i * rowDir), column + (i * colDir)) != nullptr)
                 return false;
         }
-        return true;
+        // if a diff color piece is on the last square or if there is no piece on the last square
+        if (board.getPiece(newRow, newCol) == nullptr || board.getPiece(newRow, newCol)->getColor() != color)    
+            return true;
     }        
     // did not move horizontally/vertically
     return false;

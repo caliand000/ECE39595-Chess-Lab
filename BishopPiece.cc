@@ -17,7 +17,8 @@ bool BishopPiece::canMoveToLocation(int newRow, int newCol) {
     // check if piece is on board
     if ((newRow < 0 || newRow >= board.getNumRows()) || (newCol < 0 || newCol >= board.getNumCols()))
         return false;
-
+    if (newRow == row || newCol == column)  // checks for if the bishop didnt move at all or if it tried to move horizontally
+        return false;
     // check if move is valid for a bishop
     /*
         for a piece to move diagonally, it must move the same amount horizontally
@@ -28,12 +29,25 @@ bool BishopPiece::canMoveToLocation(int newRow, int newCol) {
         distances, and if they are the same, it should be a diagonal move, making it
         valid.
     */
-    int rowCheck = newRow - row;
-    int colCheck = newCol - column;
-    
+
+    // 1 mean down/right
+    // -1 means up/left
+    int rowDir = (newRow - row) > 0 ? 1: -1;
+    int colDir = (newCol - column) > 0 ? 1: -1;
+
     // Again, not sure if need to check if there is a piece in between
-    if (rowCheck == colCheck || (-1*rowCheck) == colCheck)    // checks if the absolute value of rowCheck and colCheck are equal
+
+    // checks if the absolute value of rowCheck and colCheck are equal
+    if (absValue(newRow - row) == absValue(newCol - column)) {   
+        for (int i = 1; i < absValue(newRow - row); i++)    // checks every square until the destination square, if piece at dest square, take it
+        {
+            // rowDir and colDir will be 1 or -1. This will multiply into the i value, adding/subtracting (moving left/right, up/down)
+            // checking for pieces along any diagonal
+            if (board.getPiece(row + i *rowDir, column + i *colDir) != nullptr)
+                return false;
+        }
         return true;
+    }
     return false;
 
 }

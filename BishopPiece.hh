@@ -16,6 +16,7 @@ namespace Student
         virtual ~BishopPiece() {}
         bool canMoveToLocation(int newRow, int newCol); // override chessPiece canMoveToLocation method
         const char* toString();                         // override chessPiece toString method
+
     };
 }
 

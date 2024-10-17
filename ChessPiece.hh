@@ -100,6 +100,7 @@
      * A unicode representation of the piece.
      */
     virtual const char *toString() = 0;
+    int absValue(int num);
   };
 }
 

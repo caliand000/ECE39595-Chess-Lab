@@ -18,7 +18,8 @@ bool RookPiece::canMoveToLocation(int newRow, int newCol) {
     // check if piece is on board
     if ((newRow < 0 || newRow >= board.getNumRows()) || (newCol < 0 || newCol >= board.getNumCols()))
         return false;
-    
+    if (newRow == row && newCol == column)
+        return false;
     // check if move is valid for a rook
     /*
     A rook moving horizontally means the column changes while the row remains the same\
@@ -34,8 +35,27 @@ bool RookPiece::canMoveToLocation(int newRow, int newCol) {
 
     // not sure if we need to account for pieces being in the way?
     
-    if (newRow == row || newCol == column) // checks for movement horizontally or vertically
+    // 1 means down/right
+    // 0 mean no change
+    // -1 means up/left
+    int rowDir = (newRow - row) == 0 ? 0 : (newRow - row) > 0 ? 1 : -1;
+    int colDir = (newCol - column) == 0? 0:  (newCol - column) > 0 ? 1: -1;
+    int maxDistance = 0;
+
+    if (newRow == row)  // check to see if the rook moved horizontally or vertically, and assign the distance it traveled
+        maxDistance = absValue(newCol - column);
+    else
+        maxDistance = absValue(newRow - row);
+    
+    if (newRow == row || newCol == column) {
+        for (int i = 1; i < maxDistance; i++)
+        {
+            if (board.getPiece(row + (i * rowDir), column + (i * colDir)) != nullptr)
+                return false;
+        }
         return true;
+    }        
+    // did not move horizontally/vertically
     return false;
 }
 

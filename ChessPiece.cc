@@ -28,3 +28,9 @@ void ChessPiece::setPosition(int row, int column) {
     this->row = row;
     this->column = column;
 }
+
+int ChessPiece::absValue(int num) {
+    if (num < 0)
+        return -1 * num;
+    return num;
+}

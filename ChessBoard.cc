@@ -29,7 +29,7 @@ ChessBoard::~ChessBoard() {
     for (std::vector<Student::ChessPiece *> rowPtrs : board) {
         // this for loop goes through the cols
         for (Student::ChessPiece * piecePtr :rowPtrs) {
-            if (piecePtr != nullptr) {}
+            //if (piecePtr != nullptr) {}
                 delete piecePtr;
         }
     }
@@ -83,31 +83,25 @@ void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startCol
 bool ChessBoard::movePiece(int fromRow, int fromColumn, int toRow, int toColumn) {
     // used for part 2/3, doesn't need to be implemented yet
 
-    //save old piece
-    ChessPiece *MovingPiece = getPiece(fromRow, fromColumn);
-    //check if its the pieces turn/ that its not null
-    if(MovingPiece == nullptr) return false;
-    if(MovingPiece->getColor() != turn) return false;
+    // if there is no piece at the specific location
+    if (getPiece(fromRow, fromColumn) == nullptr)
+        return false;
 
-    //check if move is valid
-    if(!isValidMove(fromRow, fromColumn, toRow, toColumn)) return false;
-
-    //now we can move the piece
-    ChessPiece *targetPiece = getPiece(toRow, toColumn);
-    //if there is a piece at the target location, delete it
-    if(targetPiece != nullptr) delete targetPiece;
-
-    //move the piece
-    board.at(toRow).at(toColumn) = MovingPiece;
-    MovingPiece->setPosition(toRow, toColumn);
-
-    //set the old position to nullptr
-    board.at(fromRow).at(fromColumn) = nullptr;
-
-    //change turn
-    turn = (turn == White) ? Black : White;
+    // obtain the current color of the piece to move
+    Color currPiece = getPiece(fromRow, fromColumn)->getColor();
+    if (currPiece != turn)  // incorrect color turn  
+        return false;
+    if (!isValidMove(fromRow, fromColumn, toRow, toColumn)) // check if move to that position is valid
+        return false;
     
-    return true;
+    // piece can move to the new square
+    delete board.at(toRow).at(toColumn);    // delete the guy that was killed
+    board.at(toRow).at(toColumn) = board.at(fromRow).at(fromColumn);    // copy pointer from old square to new square
+    board.at(fromRow).at(fromColumn) = nullptr;                         // set the old square to be empty again 
+    getPiece(toRow,toColumn)->setPosition(toRow, toColumn);             // change the space
+    turn = turn == White ? Black : White;   // change turns
+
+    return true;    // piece is safe to move to the area
 }
 
 //TODO
@@ -167,7 +161,39 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
 // check if piece can be attacked
 bool ChessBoard::isPieceUnderThreat(int row, int column) {
     // used for part 2/3, doesn't need to be implemented yet
-    return true;
+    // go through all the opposing color's pieces and run 'isValidMove()'
+    // on the square of the piece about to be attacked.
+    if (getPiece(row, column) == nullptr)
+        return false;
+    Color currPiece = getPiece(row, column)->getColor();    // obtain the color
+    
+    // determine opposing piece color
+    Color oppPiece;
+    if (currPiece == White)
+        oppPiece = Black;
+    else
+        oppPiece = White;
+    
+    // go through the vector of vectors
+    for (std::vector<Student::ChessPiece *> rowPtrs : board) {
+        // go through the elements within one vector
+        for (Student::ChessPiece * piecePtr :rowPtrs) {
+            // if you find a piece of the opposing color
+            if (piecePtr != NULL)
+            {
+                if (piecePtr->getColor() == oppPiece)
+                {
+                    //check if the opposing piece can make a valid move onto the current piece. if it can, the current piece
+                    // is under threat
+                    if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
+                        return true;
+                }
+            }
+        }
+    }
+    return false;   // there are no pieces of the opposing color, or none of the enemy
+                    // pieces can attack my piece at that square
+
 }
 
 std::ostringstream ChessBoard::displayBoard()

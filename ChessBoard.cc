@@ -82,6 +82,31 @@ void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startCol
 // moves piece from one position to another
 bool ChessBoard::movePiece(int fromRow, int fromColumn, int toRow, int toColumn) {
     // used for part 2/3, doesn't need to be implemented yet
+
+    //save old piece
+    ChessPiece *MovingPiece = getPiece(fromRow, fromColumn);
+    //check if its the pieces turn/ that its not null
+    if(MovingPiece == nullptr) return false;
+    if(MovingPiece->getColor() != turn) return false;
+
+    //check if move is valid
+    if(!isValidMove(fromRow, fromColumn, toRow, toColumn)) return false;
+
+    //now we can move the piece
+    ChessPiece *targetPiece = getPiece(toRow, toColumn);
+    //if there is a piece at the target location, delete it
+    if(targetPiece != nullptr) delete targetPiece;
+
+    //move the piece
+    board.at(toRow).at(toColumn) = MovingPiece;
+    MovingPiece->setPosition(toRow, toColumn);
+
+    //set the old position to nullptr
+    board.at(fromRow).at(fromColumn) = nullptr;
+
+    //change turn
+    turn = (turn == White) ? Black : White;
+    
     return true;
 }
 

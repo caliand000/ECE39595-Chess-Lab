@@ -11,6 +11,7 @@ using Student::ChessPiece;
 using Student::PawnPiece;
 using Student::RookPiece;
 using Student::BishopPiece;
+using Student::KingPiece;
 
 // Constructor: Initializes the board with given rows and columns
 ChessBoard::ChessBoard(int numRow, int numCol)
@@ -62,6 +63,9 @@ void ChessBoard::createChessPiece(Color col, Type ty, int startRow, int startCol
         break;
     case Bishop:
         newPiece = new BishopPiece(*this, col, startRow, startColumn);
+        break;
+    case King:
+        newPiece = new KingPiece(*this, col, startRow, startColumn);
         break;
     // Add other cases for different piece types if needed
     default:
@@ -155,6 +159,59 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     {
         return false;
     }
+
+
+    //logic for if king for same color of the move under threat
+    //first we need to attempt the move and then read the board to 
+    //determine if the king is currently under threat
+    //if the king is under threat, then the move is invalid
+
+    //store original piece locations before attempting move
+    ChessPiece *startPiece = board.at(fromRow).at(fromColumn);
+    ChessPiece *endPiece = board.at(toRow).at(toColumn);
+
+    //attempt the move
+    board.at(toRow).at(toColumn) = board.at(fromRow).at(fromColumn);
+    (board.at(fromRow).at(fromColumn))->setPosition(toRow, toColumn);
+    //delete the piece at the original location
+    board.at(fromRow).at(fromColumn) = nullptr;
+
+    //check if the king is under threat
+    bool underThreat = true;
+
+    //find king of same color on the board
+    ChessPiece *king = nullptr;
+
+    auto rows = board.begin();
+    while (rows != board.end()) {
+        auto piece = rows->begin();  // Using auto here instead of retyping the iterator definition
+        while (piece != rows->end()) {
+            // Looking for king of the same color
+            if (*piece != nullptr && (*piece)->getColor() == (board.at(fromRow).at(fromColumn))->getColor() && (*piece)->getType() == King) {
+                king = *piece;
+                break;
+            }
+            ++piece;
+        }
+        ++rows;
+    }
+
+    //if king is under attack or if it exists
+    if(king != nullptr && isPieceUnderThreat(king->getRow(), king->getColumn()) == true) {
+        underThreat = false;
+    }
+
+    //reset the board to original state
+    board.at(fromRow).at(fromColumn) = startPiece;
+    startPiece->setPosition(fromRow, fromColumn);
+    board.at(toRow).at(toColumn) = endPiece;
+
+    //if king is under threat then return false
+    if(underThreat == true)
+    {
+        return false;
+    }
+
    return true;
 }
 

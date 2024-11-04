@@ -41,8 +41,8 @@ int main()
     Board.createChessPiece(White, Pawn, 7, 1);
     Board.createChessPiece(Black, Bishop, 6, 3);
     //Board.createChessPiece(White, Pawn, 3, 5);
-    //Board.createChessPiece(White, Pawn, 4, 5);
-    //std::cout << Board.displayBoard().str();
+    Board.createChessPiece(White, King, 4, 5);
+    std::cout << Board.displayBoard().str();
 
     //bool result = Board.isValidMove(2, 0, 0, 0);        //from (3, 2) to (3,1) should return true
     int maxRow = 8;

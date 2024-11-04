@@ -168,12 +168,13 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     //if the king is under threat, then the move is invalid
 
     //store original piece locations before attempting move
-    ChessPiece *startPiece = board.at(fromRow).at(fromColumn);
+    ChessPiece *Piece = board.at(fromRow).at(fromColumn);
+    ChessPiece *startPiece = Piece;
     ChessPiece *endPiece = board.at(toRow).at(toColumn);
 
     //attempt the move
-    board.at(toRow).at(toColumn) = board.at(fromRow).at(fromColumn);
-    (board.at(fromRow).at(fromColumn))->setPosition(toRow, toColumn);
+    board.at(toRow).at(toColumn) = Piece;
+    Piece->setPosition(toRow, toColumn);
     //delete the piece at the original location
     board.at(fromRow).at(fromColumn) = nullptr;
 
@@ -183,16 +184,16 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     //find king of same color on the board
     ChessPiece *king = nullptr;
 
-    auto rows = board.begin();
+    std::vector<std::vector<ChessPiece*>>::iterator rows = board.begin();
     while (rows != board.end()) {
-        auto piece = rows->begin();  // Using auto here instead of retyping the iterator definition
-        while (piece != rows->end()) {
-            // Looking for king of the same color
-            if (*piece != nullptr && (*piece)->getColor() == (board.at(toRow).at(toColumn))->getColor() && (*piece)->getType() == King) {
-                king = *piece;
+        std::vector<ChessPiece*>::iterator piece_iter = rows->begin();  // Using auto here instead of retyping the iterator definition
+        while (piece_iter != rows->end()) {
+            // Looking for the same color king
+            if (*piece_iter != nullptr && (*piece_iter)->getColor() == Piece->getColor() && (*piece_iter)->getType() == King) {
+                king = *piece_iter;
                 break;
             }
-            ++piece;
+            ++piece_iter;
         }
         ++rows;
     }

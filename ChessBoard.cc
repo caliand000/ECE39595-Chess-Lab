@@ -5,6 +5,7 @@
 #include "RookPiece.hh"
 #include "BishopPiece.hh"
 #include "KingPiece.hh"
+// #include <iostream>
 
 using Student::ChessBoard;
 using Student::ChessPiece;
@@ -187,7 +188,7 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
         auto piece = rows->begin();  // Using auto here instead of retyping the iterator definition
         while (piece != rows->end()) {
             // Looking for king of the same color
-            if (*piece != nullptr && (*piece)->getColor() == (board.at(fromRow).at(fromColumn))->getColor() && (*piece)->getType() == King) {
+            if (*piece != nullptr && (*piece)->getColor() == (board.at(toRow).at(toColumn))->getColor() && (*piece)->getType() == King) {
                 king = *piece;
                 break;
             }
@@ -206,8 +207,10 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     startPiece->setPosition(fromRow, fromColumn);
     board.at(toRow).at(toColumn) = endPiece;
 
+    // std::cout << "King under threat: " << (underThreat ? "Yes" : "No") << std::endl;
+
     //if king is under threat then return false
-    if(underThreat == true)
+    if(underThreat == false)
     {
         return false;
     }

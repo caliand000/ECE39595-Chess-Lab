@@ -72,12 +72,15 @@ void test_part3_4x4_1()
     Board.createChessPiece(White, King, 3, 0);
 
     std::cout << Board.displayBoard().str();
-    testAllMoves(Board);
+    // testAllMoves(Board);
 
     Board.movePiece(3, 0, 2, 0);
 
     std::cout << Board.displayBoard().str();
-    testAllMoves(Board);
+    // testAllMoves(Board);
+
+    bool valid = Board.isValidMove(0, 0, 1, 0);
+                    std::cout << "Move from (" << 0 << ", " << 0 << ") to (" << 1 << ", " << 0 << "): " << (valid ? "Valid" : "Invalid") << std::endl;
 
 
     return;

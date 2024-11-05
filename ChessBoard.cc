@@ -5,7 +5,7 @@
 #include "RookPiece.hh"
 #include "BishopPiece.hh"
 #include "KingPiece.hh"
-// #include <iostream>
+#include <iostream>
 
 using Student::ChessBoard;
 using Student::ChessPiece;
@@ -179,17 +179,18 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     board.at(fromRow).at(fromColumn) = nullptr;
 
     //check if the king is under threat
-    bool underThreat = true;
+    bool underThreat = false;
 
     //find king of same color on the board
     ChessPiece *king = nullptr;
 
     std::vector<std::vector<ChessPiece*>>::iterator rows = board.begin();
     while (rows != board.end()) {
-        std::vector<ChessPiece*>::iterator piece_iter = rows->begin();  // Using auto here instead of retyping the iterator definition
+        std::vector<ChessPiece*>::iterator piece_iter = (*rows).begin();  // Using auto here instead of retyping the iterator definition
         while (piece_iter != rows->end()) {
             // Looking for the same color king
             if (*piece_iter != nullptr && (*piece_iter)->getColor() == Piece->getColor() && (*piece_iter)->getType() == King) {
+                std::cout << "Found King: "<< (*piece_iter)->getRow() << (*piece_iter)->getColumn()  << std::endl;
                 king = *piece_iter;
                 break;
             }
@@ -198,9 +199,9 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
         ++rows;
     }
 
-    //if king is under attack or if it exists
+    //if king is under attack
     if(king != nullptr && isPieceUnderThreat(king->getRow(), king->getColumn()) == true) {
-        underThreat = false;
+        underThreat = true;
     }
 
     //reset the board to original state
@@ -208,10 +209,10 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     startPiece->setPosition(fromRow, fromColumn);
     board.at(toRow).at(toColumn) = endPiece;
 
-    // std::cout << "King under threat: " << (underThreat ? "Yes" : "No") << std::endl;
+    std::cout << "King under threat: " << (underThreat ? "Yes" : "No") << std::endl;
 
     //if king is under threat then return false
-    if(underThreat == false)
+    if(underThreat == true)
     {
         return false;
     }
@@ -244,9 +245,14 @@ bool ChessBoard::isPieceUnderThreat(int row, int column) {
             {
                 if (piecePtr->getColor() == oppPiece)
                 {
+                    if((getPiece(row, column))->getType() == King)      //if curr piece is a king
+                    {
+                        if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
+                            return true;
+                    }
                     //check if the opposing piece can make a valid move onto the current piece. if it can, the current piece
                     // is under threat
-                    if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
+                    else if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
                         return true;
                 }
             }

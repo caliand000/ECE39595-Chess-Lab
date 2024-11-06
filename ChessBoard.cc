@@ -200,7 +200,7 @@ bool ChessBoard::isValidMove(int fromRow, int fromColumn, int toRow, int toColum
     }
 
     //if king is under attack
-    if(king != nullptr && isPieceUnderThreat(king->getRow(), king->getColumn()) == true) {
+    if(king != nullptr && isPieceUnderThreat(king->getRow(), king->getColumn()) == true && king->getColor() == turn){
         underThreat = true;
     }
 
@@ -250,6 +250,10 @@ bool ChessBoard::isPieceUnderThreat(int row, int column) {
                         if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
                             return true;
                     }
+                    else if(piecePtr->getType() == King){
+                        if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
+                            return true;
+                    }
                     //check if the opposing piece can make a valid move onto the current piece. if it can, the current piece
                     // is under threat
                     else if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
@@ -260,7 +264,6 @@ bool ChessBoard::isPieceUnderThreat(int row, int column) {
     }
     return false;   // there are no pieces of the opposing color, or none of the enemy
                     // pieces can attack my piece at that square
-
 }
 
 std::ostringstream ChessBoard::displayBoard()

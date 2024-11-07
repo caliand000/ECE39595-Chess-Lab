@@ -127,6 +127,7 @@ namespace Student
          */
         bool isPieceUnderThreat(int row, int column);
 
+
         /**
          * @brief
          * Returns an output string stream displaying the layout of the board.

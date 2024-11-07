@@ -245,18 +245,22 @@ bool ChessBoard::isPieceUnderThreat(int row, int column) {
             {
                 if (piecePtr->getColor() == oppPiece)
                 {
-                    if((getPiece(row, column))->getType() == King)      //if curr piece is a king
-                    {
-                        if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
-                            return true;
-                    }
-                    else if(piecePtr->getType() == King){
-                        if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
-                            return true;
-                    }
-                    //check if the opposing piece can make a valid move onto the current piece. if it can, the current piece
-                    // is under threat
-                    else if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
+                    // if((getPiece(row, column))->getType() == King)      //if curr piece is a king
+                    // {
+                    //     if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
+                    //         return true;
+                    // }
+                    // else if(piecePtr->getType() == King){
+                    //     if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
+                    //         return true;
+                    // }
+                    // //check if the opposing piece can make a valid move onto the current piece. if it can, the current piece
+                    // // is under threat
+                    // else if (isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))   
+                    //     return true;
+                    // // else if(!isValidMove(piecePtr -> getRow(), piecePtr -> getColumn(), row, column) && isKingUnderThreat(piecePtr -> getRow(), piecePtr -> getColumn(), row, column))
+                    // //     return true;
+                    if(piecePtr->canMoveToLocation(row, column))    //if the opposing piece can move to the king
                         return true;
                 }
             }
